@@ -1,0 +1,32 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto);
+body {
+    font-family: "Roboto";
+}
+fieldset#zaobljeniji {
+    border-radius: 40px;
+    padding: 20px;
+    width: 200px;
+    height: 150px;
+    margin-top: 20px;
+    text-align: center;
+    display: inline-block;	
+}
+fieldset#kockastiji {
+    border-radius: 15px;
+    border: 2px solid #73AD21;
+    padding: 20px;
+    width: 200px;
+    height: 150px;
+    margin-top: 20px;
+    text-align: center;
+    display: inline-block;
+}
+.details {
+    font-size: x-small;
+}
+#squares {
+    text-align: center;
+}
+legend {
+    font-size: small;
+}
