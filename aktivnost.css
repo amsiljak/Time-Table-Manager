@@ -1,31 +1,25 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto);
 body {
     font-family: "Roboto";
+    text-align: center;
 }
-fieldset#zaobljeniji {
-    border-radius: 40px;
+fieldset {
     padding: 20px;
     width: 200px;
     height: 150px;
-    margin-top: 20px;
+    margin-top: 20px;   
     text-align: center;
     display: inline-block;	
 }
-fieldset#kockastiji {
+#zaobljeniji {
+    border-radius: 40px;
+}
+#kockastiji {
     border-radius: 15px;
-    border: 2px solid #73AD21;
-    padding: 20px;
-    width: 200px;
-    height: 150px;
-    margin-top: 20px;
-    text-align: center;
-    display: inline-block;
+    border: 2px solid #4CAF50;
 }
 .details {
     font-size: x-small;
-}
-#squares {
-    text-align: center;
 }
 legend {
     font-size: small;

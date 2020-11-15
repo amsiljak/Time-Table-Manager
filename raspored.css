@@ -1,0 +1,45 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto);
+body {
+    font-family: "Roboto";
+}
+table, th, td {
+    border-collapse: collapse;
+    text-align: center;
+    margin-top: 20px;
+}
+td, th {
+    border: 1px solid black;
+    width: 20px;
+    height: 60px;
+}
+
+col:nth-child(2n) {
+    border-left: dashed;
+}
+#prvi {
+    border: transparent;
+    height: 5px;
+    font-size: small;
+    text-align: left;
+    padding-left: 14%;
+    background-color: transparent;
+}
+td {
+    background-color: #c3c3c3;
+}
+#plavo {
+    background-color: rgb(216, 226, 230);
+}
+#invisible {
+    border: transparent;
+    text-align: right;
+    padding-right: 10px;
+    background-color: transparent;
+}
+#time {
+    border: transparent;
+    text-align: center;
+    font-size: small;
+    height: 5px;
+    background-color: transparent;
+}

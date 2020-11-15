@@ -1,14 +1,33 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto);
+body {
+    font-family: "Roboto";
+}
 table, th, td {
-    border: 1px solid black;
     border-collapse: collapse;
     text-align: center;
     margin-top: 20px;
 }
 td, th {
-    width: 30%;
-    height: 30px;
+    border: 1px solid black;
+    width: 40%;
+    height: 40px;
 }
-tr:hover {
+tr:nth-child(n+2):hover {
     border-style: solid;
     border-color: black;
+    border-width: 2px;
+}
+#center {
+    padding: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    font-size: 15px;
+    display: inline-block;
+}
+tr:nth-child(1) {
+    background-color: #c3c3c3;
 }
