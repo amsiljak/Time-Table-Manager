@@ -14,10 +14,10 @@ fieldset {
     text-align: center;
     display: inline-block;	
 }
-#zaobljeniji {
+.zaobljeniji {
     border-radius: 40px;
 }
-#kockastiji {
+.kockastiji {
     border-radius: 15px;
     border: 2px solid #4CAF50;
 }

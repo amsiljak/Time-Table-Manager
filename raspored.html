@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" media="screen and (min-width: 801px)" href="raspored.css">
-        <link rel="stylesheet" type="text/css" media="screen and (max-width: 800px)" href="raspored_mobile.css" />
+        <title>Raspored</title>
+        <link rel="stylesheet" media="screen and (min-width: 601px)" href="raspored.css">
+        <link rel="stylesheet" type="text/css" media="screen and (max-width: 600px)" href="raspored_mobile.css" />
         <link rel="stylesheet" href="menu.css">
     </head>
     <body>
@@ -15,67 +16,26 @@
         <div>
             <table> 
                 <colgroup>
-                   <col id = "invisible"><col id = "invisible"><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col>
+                   <col class = "invisible"><col class = "invisible"><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col>
                 </colgroup> 
                 <tr>
-                    <td id = "time" id = "prvi" colspan="4">08:00</td>
-                    <td id = "time" colspan="4">10:00</td>
-                    <td id = "time" colspan="4">12:00</td>
-                    <td id = "time" colspan="2"></td>
-                    <td id = "time" colspan="4">15:00</td>
-                    <td id = "time" colspan="4">17:00</td>
-                    <td id = "time" colspan="4">19:00</td>
+                    <td class = "time" id = "prvi" colspan="3">08:00</td>
+                    <td class = "time" colspan="4">10:00</td>
+                    <td class = "time" colspan="4">12:00</td>
+                    <td class = "time" colspan="2"></td>
+                    <td class = "time" colspan="4">15:00</td>
+                    <td class = "time" colspan="4">17:00</td>
+                    <td class = "time" colspan="4">19:00</td>
+                    <td class = "time" colspan="3"></td>
                 </tr>         
                 <tr>
-                    <td colspan="2" id = "invisible">Ponedjeljak</td>
+                    <td class = "invisible">Ponedjeljak</td>
                     <td></td>
                     <td></td>
-                    <td colspan = "6" id = "plavo">WT<br>predavanje</td>
-                    <td colspan = "3" id = "plavo">WT <br>vježbe</td>
+                    <td colspan = "6" class = "plavo">WT<br>predavanje</td>
+                    <td colspan = "3" class = "plavo">WT <br>vježbe</td>
                     <td></td>
-                    <td colspan="6" id = "plavo">RMA <br>predavanje</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td id = "invisible" colspan="2" >Utorak</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="3" id = "plavo">RMA <br>vježbe</td>
-                    <td colspan="4" id = "plavo">DM <br>tutorijal</td>
-                    <td colspan="6" id = "plavo">DM <br>predavanje</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td id = "invisible" colspan="2" >Srijeda</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="6" id = "plavo">OI <br>predavanje</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="6" class = "plavo">RMA <br>predavanje</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -87,7 +47,48 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td id = "invisible" colspan="2" >Četvrtak</td>
+                    <td class = "invisible">Utorak</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td colspan="3" class = "plavo">RMA <br>vježbe</td>
+                    <td colspan="4" class = "plavo">DM <br>tutorijal</td>
+                    <td colspan="6" class = "plavo">DM <br>predavanje</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class = "invisible" >Srijeda</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td colspan="6" class = "plavo">OI <br>predavanje</td>
+                    <td  colspan="6"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class = "invisible" >Četvrtak</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -116,7 +117,8 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td id = "invisible" colspan="2" >Petak</td>
+                    <td class = "invisible" >Petak</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>

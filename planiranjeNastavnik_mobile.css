@@ -5,15 +5,6 @@ body {
     margin-left: 0%;
     margin-right: 0%;
 }
-td {
-    width: 150px;
-    height: 50px;
-    padding-left: 10px;
-    padding-right: 10px;
-} 
-td:nth-child(2n) {
-    background-color: #4CAF50;
-}
 td:nth-child(2n+1) {
     background-color: #c3c3c3;
 }
@@ -33,13 +24,13 @@ label {
     padding-bottom: 10px;
     margin-bottom: 10px;
 }
-#center {
-    padding: 15px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translateX(-50%) translateY(-50%);
-    -webkit-transform: translate(-50%,-50%);
-    transform: translate(-50%,-50%);
-    font-size: 15px;
+td {
+    display: block;
+    width: 100% !important;
+    border: 1px solid black;
+}
+table {
+    margin-left: 35%;
+    margin-right: 35%;
+    border-spacing:0 15px; 
 }

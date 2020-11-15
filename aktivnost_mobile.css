@@ -16,10 +16,10 @@ fieldset {
     margin-left: 30%;
     margin-right: 30%;
 }
-#zaobljeniji {
+.zaobljeniji {
     border-radius: 40px;
 }
-#kockastiji {
+.kockastiji {
     border-radius: 15px;
     border: 2px solid #4CAF50;
 }
@@ -29,6 +29,6 @@ fieldset {
 legend {
     font-size: small;
 }
-#zaobljeniji:first-of-type {
+.zaobljeniji:first-of-type {
     display:none;
 }
