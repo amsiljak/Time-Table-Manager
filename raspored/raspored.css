@@ -23,7 +23,7 @@ col:nth-child(2n+3) {
     height: 5px;
     font-size: small;
     text-align: left;
-    padding-left: 11%;
+    padding-left: 6em;
     background-color: transparent;
 }
 td {
@@ -31,6 +31,7 @@ td {
 }
 .plavo {
     background-color: rgb(216, 226, 230);
+    font-size: x-small;
 }
 .invisible {
     border: transparent;
@@ -44,4 +45,7 @@ td {
     font-size: small;
     height: 5px;
     background-color: transparent;
+}
+.tipTekst {
+    font-size: x-small;
 }
