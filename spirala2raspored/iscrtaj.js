@@ -86,7 +86,6 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan) {
                 celijaNoveAktivnosti = red.children[i];
                 indeksCelijeZaObrisati = i + 1;
                 slobodan = 1;
-                console.log(red.children);
                 for(j = i + 1; j < i + razlika * 2; j++) {
                     if(red.children[j].id == "zauzeta") slobodan = 0; //slucaj prve celije slobodne a neke od ostaluih zauzete 
                 }

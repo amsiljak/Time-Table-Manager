@@ -98,7 +98,7 @@ var Iscrtaj =( function (){
                 nazivTekst = document.createTextNode(naziv);
                 celijaNoveAktivnosti.appendChild(nazivTekst);
     
-                tipTekst = document.createTextNode("\n" + tip);
+                tipTekst = document.createTextNode(tip);
                 tipTekst.className = "tipTekst";
                 celijaNoveAktivnosti.appendChild(tipTekst);
     
