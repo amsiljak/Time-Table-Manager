@@ -68,7 +68,7 @@ function iscrtajRaspored(div,dani,satPocetak,satKraj) {
 
 
 function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan) {
-    if(!raspored || raspored.children[0] == null) alert("Greška - raspored nije kreiran");
+    if(raspored == null || raspored.children[0] == null) alert("Greška - raspored nije kreiran");
 
     else if (vrijemePocetak >= vrijemeKraj || !(vrijemePocetak >= 0 && vrijemePocetak <= 24) ||
         !(vrijemeKraj >= 0 && vrijemeKraj <= 24) ||
@@ -99,7 +99,7 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan) {
             nazivTekst = document.createTextNode(naziv);
             celijaNoveAktivnosti.appendChild(nazivTekst);
 
-            tipTekst = document.createTextNode("\n" + tip);
+            tipTekst = document.createTextNode(tip);
             tipTekst.className = "tipTekst";
             celijaNoveAktivnosti.appendChild(tipTekst);
 
