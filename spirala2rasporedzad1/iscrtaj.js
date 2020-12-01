@@ -96,12 +96,7 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan) {
             celijaNoveAktivnosti.colSpan = razlika * 2;
             celijaNoveAktivnosti.className = "plavo";
 
-            nazivTekst = document.createTextNode(naziv);
-            celijaNoveAktivnosti.appendChild(nazivTekst);
-
-            tipTekst = document.createTextNode(tip);
-            tipTekst.className = "tipTekst";
-            celijaNoveAktivnosti.appendChild(tipTekst);
+            celijaNoveAktivnosti.innerHTML = naziv + "<br>" + "<span class=\"tipTekst\">"+ tip + "</span>";
 
             for(i = 0; i < razlika * 2 - 1; i++) {
                 red.removeChild(red.children[indeksCelijeZaObrisati]);

@@ -6,27 +6,27 @@ var Iscrtaj =( function (){
         }
         else {
             tbl  = document.createElement("table");
-    
+
             razlika = satKraj - satPocetak;
-    
+
             var colgroup = document.createElement("colgroup");
             for (i = 0; i < 2 * razlika + 1; i++) {
                 var col = document.createElement("col");
                 colgroup.appendChild(col); 
             }
             tbl.appendChild(colgroup);
-    
-    
+
+
             //red sa satima
             var tr = tbl.insertRow();
-    
+
             td = tr.insertCell();
             td.className = "time";
             td.id = "prvi";
             td.colSpan =  "3";
             thetext = document.createTextNode(satPocetak + ":00");
             td.appendChild(thetext);
-    
+
             for(i = satPocetak + 2; i < satKraj; i += 2) {
                 var td = tr.insertCell();
                 td.className = "time";
@@ -40,12 +40,12 @@ var Iscrtaj =( function (){
                     td.appendChild(thetext);
                 } 
             }
-    
-    
+
+
             for (i = 0; i < dani.length; i++) {
                 var tr = tbl.insertRow();
                 tr.id = dani[i];
-    
+
                 var satId = satPocetak;
                 for (j = 0; j < 2 * razlika + 1; j++) {
                     if(j == 0) {
@@ -66,8 +66,7 @@ var Iscrtaj =( function (){
         }
     }
     var dodajAktivnost = function(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan) {
-        if(!raspored || raspored.children[0] == null) alert("Greška - raspored nije kreiran");
-
+        if(raspored == null || raspored.children[0] == null) alert("Greška - raspored nije kreiran");
         else if (vrijemePocetak >= vrijemeKraj || !(vrijemePocetak >= 0 && vrijemePocetak <= 24) ||
             !(vrijemeKraj >= 0 && vrijemeKraj <= 24) ||
             !(Number.isInteger(vrijemePocetak) || Number.isInteger(vrijemePocetak + 0.5)) || 
@@ -76,7 +75,7 @@ var Iscrtaj =( function (){
         else {
             var red = raspored.children[0].children[1].children[dan];
             var razlika = vrijemeKraj - vrijemePocetak;
-    
+
             slobodan = 0;
             for(i = 0; i < red.childElementCount; i++) {
                 if(red.children[i].id == vrijemePocetak) {
@@ -84,7 +83,6 @@ var Iscrtaj =( function (){
                     celijaNoveAktivnosti = red.children[i];
                     indeksCelijeZaObrisati = i + 1;
                     slobodan = 1;
-                    console.log(red.children);
                     for(j = i + 1; j < i + razlika * 2; j++) {
                         if(red.children[j].id == "zauzeta") slobodan = 0; //slucaj prve celije slobodne a neke od ostaluih zauzete 
                     }
@@ -94,14 +92,9 @@ var Iscrtaj =( function (){
             else {
                 celijaNoveAktivnosti.colSpan = razlika * 2;
                 celijaNoveAktivnosti.className = "plavo";
-    
-                nazivTekst = document.createTextNode(naziv);
-                celijaNoveAktivnosti.appendChild(nazivTekst);
-    
-                tipTekst = document.createTextNode(tip);
-                tipTekst.className = "tipTekst";
-                celijaNoveAktivnosti.appendChild(tipTekst);
-    
+
+                celijaNoveAktivnosti.innerHTML = naziv + "<br>" + "<span class=\"tipTekst\">"+ tip + "</span>";
+
                 for(i = 0; i < razlika * 2 - 1; i++) {
                     red.removeChild(red.children[indeksCelijeZaObrisati]);
                 }
