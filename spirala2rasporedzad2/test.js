@@ -77,10 +77,8 @@ describe ( 'Iscrtaj' , function () {
             assert . equal (redovi[4].firstChild.innerHTML, "Četvrtak" , "Posljednji dan treba biti u prvoj koloni posljednjem redu" );
         });
     });
-});
-describe ( 'Iscrtaj' , function () {
-    alert = function() {}; //dodano da ne iskacu alerti
     describe ( 'dodajAktivnost()' , function () {
+        alert = function() {}; //dodano da ne iskacu alerti
         it ( 'treba raspored imati zapisan naziv aktivnosti' , function () {
             let okvir = document.createElement("div");
             Iscrtaj.iscrtajRaspored(okvir,["Ponedjeljak","Utorak","Srijeda","Četvrtak"],8,21);
@@ -96,6 +94,7 @@ describe ( 'Iscrtaj' , function () {
             let tabela = okvir.getElementsByTagName("table")[0];
             let redovi = tabela . getElementsByTagName ( "tr" );
             assert . equal (redovi[1].children[4].innerHTML, "" , "Peta kolona treba biti prazna" );
+            assert . notEqual (redovi[1].children[3].innerHTML, "" , "Cetvrta kolona ne  treba biti prazna" );
             assert . equal (redovi[1].children[2].innerHTML, "" , "Treca kolona treba biti prazna" );
         });
         it ( 'treba celija imati colSpan velicine broja polusatnih perioda u aktivnosti' , function () {
@@ -104,7 +103,7 @@ describe ( 'Iscrtaj' , function () {
             Iscrtaj.dodajAktivnost(okvir,"WT","predavanje",12,13.5,"Ponedjeljak");
             let tabela = okvir.getElementsByTagName("table")[0];
             let redovi = tabela . getElementsByTagName ( "tr" );
-            assert . equal (redovi[1].children[9].colSpan, 3 , "Deveta kolona imati colSpan 3" );
+            assert . equal (redovi[1].children[9].colSpan, 3 , "Deseta kolona treba imati colSpan 3" );
         });
         it ( 'ne treba se kreirati aktivnost u zauzetom terminu' , function () {
             let okvir = document.createElement("div");
@@ -113,7 +112,8 @@ describe ( 'Iscrtaj' , function () {
             Iscrtaj.dodajAktivnost(okvir,"WT","predavanje",12,14,"Ponedjeljak");
             let tabela = okvir.getElementsByTagName("table")[0];
             let redovi = tabela . getElementsByTagName ( "tr" );
-            assert . equal (redovi[1].children[10].innerHTML, "" , "Deseta kolona treba biti prazna" );
+            assert . notEqual (redovi[1].children[9].innerHTML, "" , "Deseta kolona treba imati aktivnost" );
+            assert . equal (redovi[1].children[10].innerHTML, "" , "Jedanaesta kolona treba biti prazna" );
         });
         it ( 'ne treba se kreirati aktivnost u zauzetom terminu' , function () {
             let okvir = document.createElement("div");
@@ -122,7 +122,8 @@ describe ( 'Iscrtaj' , function () {
             Iscrtaj.dodajAktivnost(okvir,"WT","predavanje",11,12.5,"Ponedjeljak");
             let tabela = okvir.getElementsByTagName("table")[0];
             let redovi = tabela . getElementsByTagName ( "tr" );
-            assert . equal (redovi[1].children[7].innerHTML, "" , "Sedma kolona treba biti prazna" );
+            assert . notEqual (redovi[1].children[9].innerHTML, "" , "Deseta kolona treba imati aktivnost" );
+            assert . equal (redovi[1].children[7].innerHTML, "" , "Osma kolona treba biti prazna" );
         });
         it ( 'ne treba se kreirati aktivnost sa neispravnim satom pocetka' , function () {
             alert = function() {}; //dodano da ne iskacu alerti
@@ -131,8 +132,8 @@ describe ( 'Iscrtaj' , function () {
             Iscrtaj.dodajAktivnost(okvir,"WT","predavanje",12.2,13.5,"Ponedjeljak");
             let tabela = okvir.getElementsByTagName("table")[0];
             let redovi = tabela . getElementsByTagName ( "tr" );
-            assert . equal (redovi[1].children[9].innerHTML, "" , "Deveta kolona treba biti prazna" );
-            assert . equal (redovi[1].children[10].innerHTML, "" , "Deseta kolona treba biti prazna" );
+            assert . equal (redovi[1].children[9].innerHTML, "" , "Deseta kolona treba biti prazna" );
+            assert . equal (redovi[1].children[10].innerHTML, "" , "Jedanaesta kolona treba biti prazna" );
         });
         it ( 'ne treba se kreirati aktivnost sa satom pocetka vecim od sata kraja' , function () {
             alert = function() {}; //dodano da ne iskacu alerti
@@ -141,7 +142,7 @@ describe ( 'Iscrtaj' , function () {
             Iscrtaj.dodajAktivnost(okvir,"WT","predavanje",12,10,"Ponedjeljak");
             let tabela = okvir.getElementsByTagName("table")[0];
             let redovi = tabela . getElementsByTagName ( "tr" );
-            assert . equal (redovi[1].children[9].innerHTML, "" , "Deveta kolona treba biti prazna" );
+            assert . equal (redovi[1].children[9].innerHTML, "" , "Deseta kolona treba biti prazna" );
         });
         it ( 'ne treba se kreirati aktivnost sa satom kraja 25' , function () {
             alert = function() {}; //dodano da ne iskacu alerti

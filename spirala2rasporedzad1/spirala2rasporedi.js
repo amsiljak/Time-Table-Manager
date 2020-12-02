@@ -57,7 +57,7 @@ function init(){
     // dodajAktivnost(okvir,"PWS","predavanje",17,26,"Ponedjeljak");//neispravan kraj
 
     dodajAktivnost(okvir,"PWS","vježba",17,19,"Ponedjeljak");
-    // dodajAktivnost(okvir,"PWS","vježba",17.5,19.5,"Ponedjeljak");
-    // dodajAktivnost(okvir,"PWS","vježba",18,21,"Ponedjeljak");
-    // dodajAktivnost(okvir,"PWS","vježba",16.5,19,"Ponedjeljak");
+    // dodajAktivnost(okvir,"PWS","vježba",17.5,19.5,"Ponedjeljak");//preklapanje termina
+    // dodajAktivnost(okvir,"PWS","vježba",18,21,"Ponedjeljak");//preklapanje termina
+    // dodajAktivnost(okvir,"PWS","vježba",16.5,19,"Ponedjeljak");//preklapanje termina
 }
