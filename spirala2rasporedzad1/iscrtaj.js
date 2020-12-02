@@ -1,16 +1,15 @@
 function iscrtajRaspored(div,dani,satPocetak,satKraj) {
-
     if (satPocetak >= satKraj || !(satPocetak >= 0 && satPocetak <= 24) || !(satKraj >= 0 && satKraj <= 24) ||
     !Number.isInteger(satPocetak) || !Number.isInteger(satKraj)) {
         div.appendChild(document.createTextNode("Greška"));   
     }
     else {
-        tbl  = document.createElement("table");
+        var tbl  = document.createElement("table");
 
-        razlika = satKraj - satPocetak;
+        var razlika = satKraj - satPocetak;
 
         var colgroup = document.createElement("colgroup");
-        for (i = 0; i < 2 * razlika + 1; i++) {
+        for (var i = 0; i < 2 * razlika + 1; i++) {
             var col = document.createElement("col");
             colgroup.appendChild(col); 
         }
@@ -24,7 +23,7 @@ function iscrtajRaspored(div,dani,satPocetak,satKraj) {
         td.className = "time";
         td.id = "prvi";
         td.colSpan =  "3";
-        thetext = document.createTextNode(satPocetak + ":00");
+        var thetext = document.createTextNode(satPocetak + ":00");
         td.appendChild(thetext);
 
         for(i = satPocetak + 2; i < satKraj; i += 2) {
@@ -47,7 +46,7 @@ function iscrtajRaspored(div,dani,satPocetak,satKraj) {
             tr.id = dani[i];
 
             var satId = satPocetak;
-            for (j = 0; j < 2 * razlika + 1; j++) {
+            for (var j = 0; j < 2 * razlika + 1; j++) {
                 if(j == 0) {
                     //ovdje se postavlja naziv dana
                     td = tr.insertCell();
@@ -69,7 +68,6 @@ function iscrtajRaspored(div,dani,satPocetak,satKraj) {
 
 function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan) {
     if(raspored == null || raspored.children[0] == null) alert("Greška - raspored nije kreiran");
-
     else if (vrijemePocetak >= vrijemeKraj || !(vrijemePocetak >= 0 && vrijemePocetak <= 24) ||
         !(vrijemeKraj >= 0 && vrijemeKraj <= 24) ||
         !(Number.isInteger(vrijemePocetak) || Number.isInteger(vrijemePocetak + 0.5)) || 
@@ -79,14 +77,14 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan) {
         var red = raspored.children[0].children[1].children[dan];
         var razlika = vrijemeKraj - vrijemePocetak;
 
-        slobodan = 0;
-        for(i = 0; i < red.childElementCount; i++) {
+        var slobodan = 0;
+        for(var i = 0; i < red.childElementCount; i++) {
             if(red.children[i].id == vrijemePocetak) {
                 red.children[i].id = "zauzeta"; // postavljamo novi id da se celija vise ne bi bila dostupna
-                celijaNoveAktivnosti = red.children[i];
-                indeksCelijeZaObrisati = i + 1;
+                var celijaNoveAktivnosti = red.children[i];
+                var indeksCelijeZaObrisati = i + 1;
                 slobodan = 1;
-                for(j = i + 1; j < i + razlika * 2; j++) {
+                for(var j = i + 1; j < i + razlika * 2; j++) {
                     if(red.children[j].id == "zauzeta") slobodan = 0; //slucaj prve celije slobodne a neke od ostaluih zauzete 
                 }
             }
