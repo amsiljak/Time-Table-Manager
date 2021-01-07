@@ -40,26 +40,29 @@ app . get ( '/aktivnosti', function ( req , res ){
 app . post ( '/predmet', function ( req , res ){
     var tijeloZahtjeva = req.body;
     var predmetPostoji = false;
+    var stringZaUpisati;
     fs.readFile('predmeti.txt', 'utf-8', function (err, data) {
         if (err) return console.error(err);
-        csv = data.toString();
-        
-        var redovi = csv.split("\n");
-        for(i = 0; i < redovi.length; i++) {
-            if(redovi[i] == tijeloZahtjeva.naziv.toString()) {
-                predmetPostoji = true;
-                res . end ("{message: \"Naziv predmeta postoji!\"}");
-                break;
+        if(data) {
+            csv = data.toString();
+            
+            var redovi = csv.split("\n");
+            for(i = 0; i < redovi.length; i++) {
+                if(redovi[i] == tijeloZahtjeva.naziv.toString()) {
+                    predmetPostoji = true;
+                    res . end ("{\"message\": \"Naziv predmeta postoji!\"}");
+                    break;
+                }
             }
+            stringZaUpisati = "\n" + tijeloZahtjeva.naziv;
         }
-        var stringZaUpisati;
-        if(csv.length == 0) stringZaUpisati = tijeloZahtjeva.naziv;
-        else stringZaUpisati = "\n" + tijeloZahtjeva.naziv;
+        else stringZaUpisati = tijeloZahtjeva.naziv;
+        console.log(tijeloZahtjeva.naziv);
 
-        if(i == redovi.length) {
+        if(!predmetPostoji) {
             fs . appendFile ( 'predmeti.txt' , stringZaUpisati, function ( err ){
                 if ( err ) throw err ;
-                res . end ("{message: \"Uspješno dodan predmet!\"}");
+                res . end ("{\"message\": \"Uspješno dodan predmet!\"}");
             });
         }
     });
@@ -133,8 +136,8 @@ app . delete ( '/aktivnost/:naziv', function ( req , res ){
             }
         }
         fs . writeFile ( 'aktivnosti.txt' , sadrzajNoveDatoteke, function ( err ){
-            if ( err ) res . json (JSON.parse("{\"message\": \"Greška - aktivnost nije obrisana!\"}"));
-            res . json (JSON.parse("{\"message\": \"Uspješno obrisana aktivnost!\"}"));
+            if ( err ) res . end (JSON.parse("{\"message\": \"Greška - aktivnost nije obrisana!\"}"));
+            res . end (JSON.parse("{\"message\": \"Uspješno obrisana aktivnost!\"}"));
         });
     });
 });
@@ -153,8 +156,8 @@ app . delete ( '/predmet/:naziv', function ( req , res ){
             }
         }
         fs . writeFile ( 'predmeti.txt' , sadrzajNoveDatoteke, function ( err ){
-            if ( err ) res . json (JSON.parse("{\"message\": \"Greška - predmet nije obrisan!\"}"));
-            res . json (JSON.parse("{\"message\": \"Uspješno obrisan predmet!\"}"));
+            if ( err ) res . end (JSON.parse("{\"message\": \"Greška - predmet nije obrisan!\"}"));
+            res . end (JSON.parse("{\"message\": \"Uspješno obrisan predmet!\"}"));
         });
     });
 });
@@ -166,7 +169,7 @@ app . delete ( '/all', function ( req , res ){
     fs.writeFile('aktivnosti.txt', '', function(err){
         if(err) uspjesno = false;
     })
-    if(uspjesno) res . json (JSON.parse("{\"message\": \"Uspješno obrisan sadržaj datoteka!\"}"));
-    else res . json (JSON.parse("{\"message\": \"Greška - sadržaj datoteka nije moguće obrisati!\"}"));
+    if(uspjesno) res . end ("{\"message\": \"Uspješno obrisan sadržaj datoteka!\"}");
+    else res . end ("{\"message\": \"Greška - sadržaj datoteka nije moguće obrisati!\"}");
 });
-app . listen ( 3000 );
+module.exports = app . listen ( 3000 );

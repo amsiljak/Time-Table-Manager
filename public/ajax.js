@@ -1,6 +1,10 @@
 var jsonPredmeti;
+var jsonAktivnosti;
+var greskaPredmet = false;
+var greskaAktivnost = false;
 window.onload = function() {
     ucitajPredmete();
+    ucitajAktivnosti();
 }
 function ucitajPredmete() {
     var ajax = new XMLHttpRequest();
@@ -12,18 +16,30 @@ function ucitajPredmete() {
         }
     }
 }
+function ucitajAktivnosti() {
+    var ajax = new XMLHttpRequest();
+    ajax.open("GET", "/aktivnosti", true);
+    ajax . send () ;
+    ajax.onreadystatechange = function() {
+        if (ajax.readyState == 4 && ajax.status == 200) {
+            jsonAktivnosti = ajax.responseText;
+        }
+    }
+}
 function dodajPredmet(naziv) {
+    var ajax = new XMLHttpRequest();
     ajax.open("POST", "/predmet", true);
     ajax.setRequestHeader ( "Content-Type" , "application/json" ) ;
     ajax.send("{\"naziv\":\"" + naziv + "\"}");
     ajax.onreadystatechange = function() {
-        if (ajax.readyState == 4 && ajax.status == 200) {
-            thetext = document.createTextNode("Aktivnst dodana uspješno");
-            document . getElementById ( 'okvir' ).appendChild(thetext);
-        }
-        if (ajax.readyState == 4 && ajax.status == 404)
-            document.getElementById("poruka").innerHTML = "Greska: nepoznat URL";
+        if (ajax.readyState == 4 && ajax.status != 200) 
+            greskaPredmet = true;
     }
+}
+function obrisiPredmet(naziv) {
+    var ajax = new XMLHttpRequest();
+    ajax.open("DETELE", "/predmet/" + naziv, true);
+    ajax . send () ;
 }
 function dodajAktivnost() {
     var ajax = new XMLHttpRequest();
@@ -34,13 +50,12 @@ function dodajAktivnost() {
         if(jsonPredmeti[i].naziv == document . getElementById ( 'naziv' ). value) predmetPostoji = true;
     }
     if(!predmetPostoji) {
-        dodajPredmet(document . getElementById ( 'naziv' ));
+        dodajPredmet(document . getElementById ( 'naziv' ).value);
     }
 
     //dodavanje nove aktivnosti
     ajax.open("POST", "/aktivnost", true);
     ajax.setRequestHeader ( "Content-Type" , "application/json" ) ;
-    console.log(document . getElementById ( 'naziv' ). value);
     var jsonString = "{\"naziv\":\"" + document . getElementById ( 'naziv' ). value + 
         "\",\"tip\":\"" + document . getElementById ( 'tip' ). value.toString() + 
         "\",\"pocetak\":" + document . getElementById ( 'pocetak' ). value.toString() + 
@@ -51,11 +66,14 @@ function dodajAktivnost() {
     //provjera uspjesnosti
     ajax.onreadystatechange = function() {
         if (ajax.readyState == 4 && ajax.status == 200) {
-            thetext = document.createTextNode("Aktivnost dodana uspješno");
-            document . getElementById ( 'okvir' ).appendChild(thetext);
+            if(ajax.response.toString == "{message: \"Aktivnost nije validna!\"}") greskaAktivnost = true;
         }
-        if (ajax.readyState == 4 && ajax.status == 404)
-            document.getElementById("poruka").innerHTML = "Greska: nepoznat URL";
+        else if (ajax.readyState == 4)
+            greskaAktivnost = true; 
     }
-    
+    if(!greskaPredmet && !greskaAktivnost) {
+        thetext = document.createTextNode("Aktivnost dodana uspješno");
+        document . getElementById ( 'okvir' ).appendChild(thetext);
+    }
+    else if(greskaAktivnost && !greskaPredmet) obrisiPredmet(document . getElementById ( 'naziv' ).value);
 }

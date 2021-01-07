@@ -1,4 +1,0 @@
-OOI,predavanje,12,13,jkn
-WT,Predavanje,13,14,Srijeda
-OOI,Predavanje,13,14,Petak
-WT,Predavanje,13,14,Nedjelja

@@ -1,1 +1,3 @@
-GET,/predmeti,null,[{"naziv":"Web tehnologije"},{"naziv":"Web tehnologije"},{"naziv":"Racunarska grafika"},{"naziv":"Poslovni web sistemi"}]
+DELETE,/all,null,{"message": "Uspješno obrisan sadržaj datoteka!"}
+POST,/predmet,{"naziv":"OOI"},{"message": "Uspješno dodan predmet!"}
+POST,/predmet,{"naziv":"OOI"},{"message": "Naziv predmeta postoji!"}
