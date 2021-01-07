@@ -1,0 +1,1 @@
+GET,/predmeti,null,[{"naziv":"Web tehnologije"},{"naziv":"Web tehnologije"},{"naziv":"Racunarska grafika"},{"naziv":"Poslovni web sistemi"}]

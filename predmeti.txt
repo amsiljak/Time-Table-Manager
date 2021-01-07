@@ -1,4 +1,2 @@
-Web tehnologije
-Web tehnologije
-Racunarska grafika
-Poslovni web sistemi
+WT
+LD
