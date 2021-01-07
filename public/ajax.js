@@ -1,7 +1,5 @@
 var jsonPredmeti;
 var jsonAktivnosti;
-var greskaPredmet = false;
-var greskaAktivnost = false;
 window.onload = function() {
     ucitajPredmete();
     ucitajAktivnosti();
@@ -42,6 +40,8 @@ function obrisiPredmet(naziv) {
     ajax . send () ;
 }
 function dodajAktivnost() {
+    var greskaPredmet = false;
+    var greskaAktivnost = false;
     var ajax = new XMLHttpRequest();
 
     //provjera postojanja predmeta
@@ -49,9 +49,7 @@ function dodajAktivnost() {
     for(i = 0; i < jsonPredmeti.length; i++) {
         if(jsonPredmeti[i].naziv == document . getElementById ( 'naziv' ). value) predmetPostoji = true;
     }
-    if(!predmetPostoji) {
-        dodajPredmet(document . getElementById ( 'naziv' ).value);
-    }
+    if(!predmetPostoji) dodajPredmet(document . getElementById ( 'naziv' ).value);
 
     //dodavanje nove aktivnosti
     ajax.open("POST", "/aktivnost", true);
@@ -62,15 +60,19 @@ function dodajAktivnost() {
         ",\"kraj\":" + document . getElementById ( 'kraj' ). value.toString() + 
         ",\"dan\":\"" + document . getElementById ( 'dan' ). value.toString() +"\"}"; 
     ajax.send (jsonString);
-
-    //provjera uspjesnosti
     ajax.onreadystatechange = function() {
         if (ajax.readyState == 4 && ajax.status == 200) {
-            if(ajax.response.toString == "{message: \"Aktivnost nije validna!\"}") greskaAktivnost = true;
+            if(JSON.parse(ajax.response).message == "Aktivnost nije validna!") {
+                greskaAktivnost = true;
+            }
         }
         else if (ajax.readyState == 4)
             greskaAktivnost = true; 
     }
+
+    console.log(greskaAktivnost);
+    console.log(greskaPredmet);
+    //provjera uspjesnosti
     if(!greskaPredmet && !greskaAktivnost) {
         thetext = document.createTextNode("Aktivnost dodana uspješno");
         document . getElementById ( 'okvir' ).appendChild(thetext);

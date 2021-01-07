@@ -11,12 +11,6 @@ td {
     padding-left: 10px;
     padding-right: 10px;
 } 
-td:nth-child(2n) {
-    background-color: #4CAF50;
-}
-td:nth-child(2n+1) {
-    background-color: #c3c3c3;
-}
 input {
     height: 20px;
     width: 150px;
@@ -44,6 +38,7 @@ label {
     font-size: 15px;
     display: inline-block;
 }
-input [type = button] {
-    height: 300px;
+#dugme {
+    width: 100%;
+    height: 40%;
 }
