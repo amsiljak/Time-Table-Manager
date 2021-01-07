@@ -13,11 +13,14 @@ app . get ( '/predmeti', function ( req , res ){
         csv = data.toString();
         
         var nizJSON = [];
-        var redovi = csv.split("\n");
-        for(i = 0; i < redovi.length; i++) {
-            var kolona = redovi[i].split(",");
-            var jsonString = "{\"naziv\":\"" + kolona[0] + "\"}"; 
-            nizJSON.push(JSON.parse(jsonString));
+
+        if(csv.length != 0) {
+            var redovi = csv.split("\n");
+            for(i = 0; i < redovi.length; i++) {
+                var kolona = redovi[i].split(",");
+                var jsonString = "{\"naziv\":\"" + kolona[0] + "\"}"; 
+                nizJSON.push(JSON.parse(jsonString));
+            }
         }
         res.json(nizJSON);
     });
@@ -28,11 +31,13 @@ app . get ( '/aktivnosti', function ( req , res ){
         csv = data.toString();
         
         var nizJSON = [];
-        var redovi = csv.split("\n");
-        for(i = 0; i < redovi.length; i++) {
-            var kolone = redovi[i].split(",");
-            var jsonString = "{\"naziv\":\"" + kolone[0] + "\",\"tip\":\"" + kolone[1] + "\",\"pocetak\":" + kolone[2] + ",\"kraj\":" + kolone[3] + ",\"dan\":\"" + kolone[4] +"\"}"; 
-            nizJSON.push(JSON.parse(jsonString));
+        if(csv.length != 0) {
+            var redovi = csv.split("\n");
+            for(i = 0; i < redovi.length; i++) {
+                var kolone = redovi[i].split(",");
+                var jsonString = "{\"naziv\":\"" + kolone[0] + "\",\"tip\":\"" + kolone[1] + "\",\"pocetak\":" + kolone[2] + ",\"kraj\":" + kolone[3] + ",\"dan\":\"" + kolone[4] +"\"}"; 
+                nizJSON.push(JSON.parse(jsonString));
+            }
         }
         res.json(nizJSON);
     });
@@ -57,7 +62,6 @@ app . post ( '/predmet', function ( req , res ){
             stringZaUpisati = "\n" + tijeloZahtjeva.naziv;
         }
         else stringZaUpisati = tijeloZahtjeva.naziv;
-        console.log(tijeloZahtjeva.naziv);
 
         if(!predmetPostoji) {
             fs . appendFile ( 'predmeti.txt' , stringZaUpisati, function ( err ){
@@ -71,6 +75,7 @@ app . post ( '/aktivnost', function ( req , res ){
     var tijeloZahtjeva = req.body;
     var vrijemePocetak = tijeloZahtjeva.pocetak;
     var vrijemeKraj = tijeloZahtjeva.kraj;
+    var csv = "";
 
     var imaGreska = false;
     if (vrijemePocetak >= vrijemeKraj || !(vrijemePocetak >= 0 && vrijemePocetak <= 24) ||
@@ -80,23 +85,25 @@ app . post ( '/aktivnost', function ( req , res ){
             imaGreska = true;
     fs.readFile('aktivnosti.txt', 'utf-8', function (err, data) {
         if (err) return console.error(err);
-        csv = data.toString();
-        
-        var redovi = csv.split("\n");
-        for(i = 0; i < redovi.length; i++) {
-            var kolone = redovi[i].split(",");
-            if(tijeloZahtjeva.dan == kolone[4] && ((vrijemePocetak >= kolone[2] && vrijemePocetak < kolone[3]) || (vrijemePocetak < kolone[2] && vrijemeKraj > kolone[2])))
-                imaGreska = true;
+        if(data) {
+            csv = data.toString();
+            
+            var redovi = csv.split("\n");
+            for(i = 0; i < redovi.length; i++) {
+                var kolone = redovi[i].split(",");
+                if(tijeloZahtjeva.dan == kolone[4] && ((vrijemePocetak >= kolone[2] && vrijemePocetak < kolone[3]) || (vrijemePocetak < kolone[2] && vrijemeKraj > kolone[2])))
+                    imaGreska = true;
+            }
         }
-        if(imaGreska) res . end ("{message: \"Aktivnost nije validna!\"}");
+        if(imaGreska) res . end ("{\"message\": \"Aktivnost nije validna!\"}");
         else {
             var stringZaUpisati = tijeloZahtjeva.naziv + "," + tijeloZahtjeva.tip + "," + tijeloZahtjeva.pocetak + "," + tijeloZahtjeva.kraj + "," + tijeloZahtjeva.dan;
             if(csv.length != 0) stringZaUpisati = "\n" + stringZaUpisati;
     
-            if(i == redovi.length) {
+            if(!imaGreska) {
                 fs . appendFile ( 'aktivnosti.txt', stringZaUpisati, function ( err ){
                     if ( err ) throw err ;
-                    res . end ("{message: \"Uspješno dodana aktivnost!\"}");
+                    res . end ("{\"message\": \"Uspješno dodana aktivnost!\"}");
                 });
             }
         }
@@ -137,7 +144,7 @@ app . delete ( '/aktivnost/:naziv', function ( req , res ){
         }
         fs . writeFile ( 'aktivnosti.txt' , sadrzajNoveDatoteke, function ( err ){
             if ( err ) res . end (JSON.parse("{\"message\": \"Greška - aktivnost nije obrisana!\"}"));
-            res . end (JSON.parse("{\"message\": \"Uspješno obrisana aktivnost!\"}"));
+            res . end ("{\"message\": \"Uspješno obrisana aktivnost!\"}");
         });
     });
 });
@@ -157,7 +164,7 @@ app . delete ( '/predmet/:naziv', function ( req , res ){
         }
         fs . writeFile ( 'predmeti.txt' , sadrzajNoveDatoteke, function ( err ){
             if ( err ) res . end (JSON.parse("{\"message\": \"Greška - predmet nije obrisan!\"}"));
-            res . end (JSON.parse("{\"message\": \"Uspješno obrisan predmet!\"}"));
+            res . end ("{\"message\": \"Uspješno obrisan predmet!\"}");
         });
     });
 });

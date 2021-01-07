@@ -10,17 +10,22 @@ function napraviTestove(testoviFajl) {
 	describe("rute", () => {
 		var testniSlucajevi = testoviFajl.split("\r\n");
 		for(let l = 0; l < testniSlucajevi.length; l++) {
-			console.log(testniSlucajevi[l]);
-			it("should return status 200", (done) => {
+			it("treba da rezultat odgovara posljednjoj koloni iz testnog fajla", (done) => {
 				var kolone = testniSlucajevi[l].split(",");
 				var posljednjaKolona;
 				
+				//slucaj kada get vraca vise json objekata
 				posljednjaKolona = kolone[3];
 				for(j = 4; j < kolone.length; j++) {
 					posljednjaKolona += "," + kolone[j];
-					if((kolone[j]).charAt(kolone[j].length - 1) == "]") break;
 				}
 					
+				//slucaj kada se u postu salje vise json atributa
+				podaciZaPost = kolone[2];
+				for(j = 3; j < kolone.length - 1; j++) {
+					podaciZaPost += "," + kolone[j];
+				}
+
 				if(kolone[0] == "GET") {
 					chai.request(server)
 					.get(kolone[1])
@@ -40,9 +45,9 @@ function napraviTestove(testoviFajl) {
 				else if(kolone[0] == "POST") {
 					chai.request(server)
 					.post(kolone[1])
-					.send(JSON.parse(kolone[2]))
+					.send(JSON.parse(podaciZaPost))
 					.end((err,response) => {
-						response.text.should.be.eq(kolone[3])
+						response.text.should.be.eq(kolone[kolone.length - 1])
 					done();
 					})
 				}
@@ -50,4 +55,4 @@ function napraviTestove(testoviFajl) {
 		}
 	});
 }
-napraviTestove(fs.readFileSync('testniPodaci.txt', 'utf-8'))
+napraviTestove(fs.readFileSync('testniPodaci.txt', 'utf-8'));

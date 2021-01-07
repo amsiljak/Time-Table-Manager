@@ -1,3 +1,30 @@
 DELETE,/all,null,{"message": "Uspješno obrisan sadržaj datoteka!"}
 POST,/predmet,{"naziv":"OOI"},{"message": "Uspješno dodan predmet!"}
+DELETE,/predmet/OOI,null,{"message": "Uspješno obrisan predmet!"}
+POST,/predmet,{"naziv":"OOI"},{"message": "Uspješno dodan predmet!"}
 POST,/predmet,{"naziv":"OOI"},{"message": "Naziv predmeta postoji!"}
+POST,/predmet,{"naziv":"WT"},{"message": "Uspješno dodan predmet!"}
+GET,/predmeti,null,[{"naziv":"OOI"},{"naziv":"WT"}]
+GET,/predmet/OOI/aktivnost,null,[]
+POST,/aktivnost,{"naziv":"WT","tip":"Predavanje","pocetak":10.5,"kraj":11,"dan":"Ponedjeljak"},{"message": "Uspješno dodana aktivnost!"}
+POST,/aktivnost,{"naziv":"OOI","tip":"Predavanje","pocetak":13,"kraj":16,"dan":"Srijeda"},{"message": "Uspješno dodana aktivnost!"}
+POST,/aktivnost,{"naziv":"OOI","tip":"Vjezba","pocetak":17,"kraj":18,"dan":"Srijeda"},{"message": "Uspješno dodana aktivnost!"}
+POST,/aktivnost,{"naziv":"OIS","tip":"Predavanje","pocetak":14,"kraj":16,"dan":"Srijeda"},{"message": "Aktivnost nije validna!"}
+POST,/aktivnost,{"naziv":"OOI","tip":"Vjezba","pocetak":13.2,"kraj":16,"dan":"Cetvrtak"},{"message": "Aktivnost nije validna!"}
+POST,/aktivnost,{"naziv":"OOI","tip":"Vjezba","pocetak":13,"kraj":10,"dan":"Petak"},{"message": "Aktivnost nije validna!"}
+GET,/aktivnosti,null,[{"naziv":"WT","tip":"Predavanje","pocetak":10.5,"kraj":11,"dan":"Ponedjeljak"},{"naziv":"OOI","tip":"Predavanje","pocetak":13,"kraj":16,"dan":"Srijeda"},{"naziv":"OOI","tip":"Vjezba","pocetak":17,"kraj":18,"dan":"Srijeda"}]
+GET,/predmet/OOI/aktivnost,null,[{"naziv":"OOI","tip":"Predavanje","pocetak":13,"kraj":16,"dan":"Srijeda"},{"naziv":"OOI","tip":"Vjezba","pocetak":17,"kraj":18,"dan":"Srijeda"}]
+DELETE,/aktivnost/OOI,null,{"message": "Uspješno obrisana aktivnost!"}
+GET,/aktivnosti,null,[{"naziv":"WT","tip":"Predavanje","pocetak":10.5,"kraj":11,"dan":"Ponedjeljak"}]
+GET,/predmet/OOI/aktivnost,null,[]
+DELETE,/predmet/OOI,null,{"message": "Uspješno obrisan predmet!"}
+GET,/predmeti,null,[{"naziv":"WT"}]
+DELETE,/all,null,{"message": "Uspješno obrisan sadržaj datoteka!"}
+GET,/predmeti,null,[]
+GET,/aktivnosti,null,[]
+POST,/aktivnost,{"naziv":"PWS","tip":"Predavanje","pocetak":9.5,"kraj":12,"dan":"Ponedjeljak"},{"message": "Uspješno dodana aktivnost!"}
+POST,/aktivnost,{"naziv":"RG","tip":"Vjezba","pocetak":15,"kraj":16,"dan":"Utorak"},{"message": "Uspješno dodana aktivnost!"}
+DELETE,/aktivnost/PWS,null,{"message": "Uspješno obrisana aktivnost!"}
+GET,/aktivnosti,null,[{"naziv":"RG","tip":"Vjezba","pocetak":15,"kraj":16,"dan":"Utorak"}]
+DELETE,/aktivnost/RG,null,{"message": "Uspješno obrisana aktivnost!"}
+GET,/aktivnosti,null,[]
