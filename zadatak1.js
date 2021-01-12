@@ -6,7 +6,10 @@ const app = express ();
 app . use ( bodyParser . json ());
 app.use(express.static('public'));
 
-app . get ( '/predmeti', function ( req , res ){
+const db = require('./db.js');
+const { student } = require('./db.js');
+
+app . get ( '/v1/predmeti', function ( req , res ){
     // res.writeHead (200, {'Content-Type':'application/json'});
     fs.readFile('predmeti.txt', 'utf-8', function (err, data) {
         if (err) return console.error(err);
@@ -25,7 +28,7 @@ app . get ( '/predmeti', function ( req , res ){
         res.json(nizJSON);
     });
 });
-app . get ( '/aktivnosti', function ( req , res ){
+app . get ( '/v1/aktivnosti', function ( req , res ){
     fs.readFile('aktivnosti.txt', 'utf-8', function (err, data) {
         if (err) return console.error(err);
         csv = data.toString();
@@ -42,7 +45,7 @@ app . get ( '/aktivnosti', function ( req , res ){
         res.json(nizJSON);
     });
 });
-app . post ( '/predmet', function ( req , res ){
+app . post ( '/v1/predmet', function ( req , res ){
     var tijeloZahtjeva = req.body;
     var predmetPostoji = false;
     var stringZaUpisati;
@@ -71,7 +74,7 @@ app . post ( '/predmet', function ( req , res ){
         }
     });
 });
-app . post ( '/aktivnost', function ( req , res ){
+app . post ( '/v1/aktivnost', function ( req , res ){
     var tijeloZahtjeva = req.body;
     var vrijemePocetak = tijeloZahtjeva.pocetak;
     var vrijemeKraj = tijeloZahtjeva.kraj;
@@ -109,7 +112,7 @@ app . post ( '/aktivnost', function ( req , res ){
         }
     });
 });
-app.get('/predmet/:naziv/aktivnost/', function ( req , res ) {
+app.get('/v1/predmet/:naziv/aktivnost/', function ( req , res ) {
     fs.readFile('aktivnosti.txt', 'utf-8', function (err, data) {
         if (err) return console.error(err);
         csv = data.toString();
@@ -127,7 +130,7 @@ app.get('/predmet/:naziv/aktivnost/', function ( req , res ) {
         res.json(nizJSON);
     });
 });
-app . delete ( '/aktivnost/:naziv', function ( req , res ){
+app . delete ( '/v1/aktivnost/:naziv', function ( req , res ){
     fs.readFile('aktivnosti.txt', 'utf-8', function (err, data) {
         var sadrzajNoveDatoteke = "";
         if (err) return console.error(err);
@@ -148,7 +151,7 @@ app . delete ( '/aktivnost/:naziv', function ( req , res ){
         });
     });
 });
-app . delete ( '/predmet/:naziv', function ( req , res ){
+app . delete ( '/v1/predmet/:naziv', function ( req , res ){
     fs.readFile('predmeti.txt', 'utf-8', function (err, data) {
         var sadrzajNoveDatoteke = "";
         if (err) return console.error(err);
@@ -168,7 +171,7 @@ app . delete ( '/predmet/:naziv', function ( req , res ){
         });
     });
 });
-app . delete ( '/all', function ( req , res ){
+app . delete ( '/v1/all', function ( req , res ){
     var uspjesno = true;
     fs.writeFile('predmeti.txt', '', function(err){
         if(err) uspjesno = false;
@@ -178,5 +181,166 @@ app . delete ( '/all', function ( req , res ){
     })
     if(uspjesno) res . end ("{\"message\": \"Uspješno obrisan sadržaj datoteka!\"}");
     else res . end ("{\"message\": \"Greška - sadržaj datoteka nije moguće obrisati!\"}");
+});
+
+
+
+
+
+app . get ( '/v2/predmeti', function ( req , res ){
+    var promise = [];
+    promise.push(
+        db.predmet.findAll().then(function(resSet){
+            return new Promise(function(resolve,reject){resolve(resSet);});
+        })
+    );
+    Promise.all(promise).then(function (resSet) {
+        let nizJSON = [];
+        resSet.forEach(predmet => {
+            var jsonString = "{\"naziv\":\"" + predmet[0].naziv + "\"}"; 
+            nizJSON.push(JSON.parse(jsonString));
+        })
+        res.json(nizJSON);
+    })
+});
+app . get ( '/v2/grupe', function ( req , res ){
+    var promise = [];
+    promise.push(
+        db.grupa.findAll().then(function(resSet){
+            return new Promise(function(resolve,reject){resolve(resSet);});
+        })
+    );
+    Promise.all(promise).then(function (resSet) {
+        let nizJSON = [];
+        resSet.forEach(predmet => {
+            var jsonString = "{\"naziv\":\"" + predmet[0].naziv + "\"}"; 
+            nizJSON.push(JSON.parse(jsonString));
+        })
+        res.json(nizJSON);
+    })
+});
+app . get ( '/v2/studenti', function ( req , res ){
+    let nizJSON = [];
+    db.student.findAll().then(function(resSet){
+        resSet.forEach(student => {
+            var jsonString = "{\"ime\":\"" + student.ime + ",\"indeks\":\"" + student.index + "\"}"; 
+            nizJSON.push(JSON.parse(jsonString));
+        });   
+        res.json(nizJSON).then(function(){
+            return new Promise(function(resolve,reject){resolve(resSet);});
+        });
+    });
+});
+app.post('/v2/predmet', function(req,res) {
+    var tijeloZahtjeva = req.body;
+    
+    db.predmet.create({naziv:tijeloZahtjeva.naziv}).then(function(p){
+        return new Promise(function(resolve,reject){resolve(p);});
+    })
+    res . end ("{\"message\": \"Uspješno dodan predmet!\"}");
+});
+app.post('/v2/student', function(req,res) {
+    var tijeloZahtjeva = req.body;
+    
+    db.student.create({ime:tijeloZahtjeva.ime,index:tijeloZahtjeva.index}).then(function(s){
+        // s.setGrupe([andric]);
+        return new Promise(function(resolve,reject){resolve(s);});
+    })
+    res . end ("{\"message\": \"Uspješno dodan student!\"}");
+});
+app.post('/v2/studenti', function(req,res) {
+    var tijeloZahtjeva = req.body;
+    var jsonStudenti = [];
+    var nizOdgovora = [];
+    var studentiListaPromisea = [];
+
+    tijeloZahtjeva.forEach(student => {
+        jsonStudenti.push(JSON.parse(student));
+    })
+    var fja = [];
+    fja.push(
+        db.student.findAll().then(function(resSet){
+            return new Promise(function(resolve,reject){resolve(resSet);});
+        })
+    );
+    Promise.all(fja).then(function (resSet) {
+        var studentiBaze = [];
+        resSet.forEach(s => {
+            s.forEach(a => {
+                studentiBaze.push(a);
+            })
+        })
+        jsonStudenti.forEach(student => {
+            trebaKreirati = true;
+            studentiBaze.forEach(studentBaze => {
+                if(studentBaze.ime != student.ime && studentBaze.index == student.index) {
+                    trebaKreirati = false;
+                    console.log("indeks isti");
+                    nizOdgovora.push("Student " + student.ime + " nije kreirean jer postoji student " + studentBaze.ime + " sa istim indexom " + studentBaze.index);
+                }
+                else if(studentBaze.ime == student.ime && studentBaze.index == student.index) {
+                    trebaKreirati = false;
+                }
+            })
+            if(trebaKreirati) {
+                console.log("nista isto");
+                studentiListaPromisea.push(
+                    db.student.create({ime:student.ime,index:student.index}).then(function(){
+                        return new Promise(function(resolve,reject){resolve();});
+                    })
+                )
+            }
+        })
+        Promise.all(studentiListaPromisea).then(function () {
+            console.log(nizOdgovora);
+            res.send(nizOdgovora);
+        })
+    })
+});
+app.post('/v2/dan', function(req,res) {
+    var tijeloZahtjeva = req.body;
+    
+    var fja =[];
+    fja.push(
+        db.dan.create({naziv:tijeloZahtjeva.naziv}).then(function(d){
+            return new Promise(function(resolve,reject){resolve();});
+        })
+    );
+    Promise.all(fja).then(function () {
+        res . end ("{\"message\": \"Uspješno dodan dan!\"}");
+    })
+});
+app.post('/v2/grupa', function(req,res) {
+    var tijeloZahtjeva = req.body;
+    
+    var fja =[];
+    fja.push(
+        db.grupa.create({naziv:tijeloZahtjeva.naziv}).then(function(d){
+            return new Promise(function(resolve,reject){resolve();});
+        })
+    );
+    Promise.all(fja).then(function () {
+        res . end ("{\"message\": \"Uspješno dodana grupa!\"}");
+    })
+});
+app.post('/v2/dan/:id', function(req,res) {
+    var tijeloZahtjeva = req.body;
+    var id = req.params.id;
+    
+    if(tijeloZahtjeva.naziv) {
+        db.dan.update( { naziv:tijeloZahtjeva.naziv},
+        { where: {id:id} }).then(function(d){
+            return new Promise(function(resolve,reject){resolve(d);});
+        })
+    }
+    res . end ("{\"message\": \"Uspješno izmijenjen dan!\"}");
+});
+app.delete('/v2/dan/:id', function(req,res) {
+    var tijeloZahtjeva = req.body;
+    
+    db.dan.delete({naziv:tijeloZahtjeva.naziv}).then(function(d){
+        return new Promise(function(resolve,reject){resolve(d);});
+    })
+    res . end ("{\"message\": \"Uspješno obrisan dan!\"}");
 });
 module.exports = app . listen ( 3000 );
