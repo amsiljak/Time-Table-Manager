@@ -202,56 +202,32 @@ app . get ( '/v2/predmeti', function ( req , res ){
             })
         })
         predmeti.forEach(predmet => {
-            var jsonString = "{\"naziv\":\"" + predmet.naziv + "\"}"; 
-            nizJSON.push(JSON.parse(jsonString));
+            nizJSON.push(predmet);
         })
         res.json(nizJSON);
-    })
+    }).catch(function(err){console.log("Greska "+err);});
 });
-app . get ( '/v2/aktivnosti', function ( req , res ){
+app . get ( '/v2/tipovi', function ( req , res ){
     var promise = [];
     promise.push(
-        db.aktivnost.findAll().then(function(resSet){
+        db.tip.findAll().then(function(resSet){
             return new Promise(function(resolve,reject){resolve(resSet);});
         })
     );
     Promise.all(promise).then(function (resSet) {
-        let nizJSON = [];
-        aktivnosti = [];
-        resSet.forEach(s => {
-            s.forEach(a => {
-                aktivnosti.push(a);
-            })
-        })
-        aktivnosti.forEach(aktivnost => {
-            var jsonString = "{\"naziv\":\"" + aktivnost.naziv + "\",\"tip\":\"" + aktivnost.tip +
-             "\",\"pocetak\":" + aktivnost.pocetak + ",\"kraj\":" + aktivnost.kraj + ",\"dan\":\"" + aktivnost.dan +"\"}"; 
-            nizJSON.push(JSON.parse(jsonString));
-        })
-        res.json(nizJSON);
-    })
+        res.json(resSet);
+    }).catch(function(err){console.log("Greska "+err);});
 });
-app . get ( '/v2/grupe', function ( req , res ){
+app . get ( '/v2/dani', function ( req , res ){
     var promise = [];
     promise.push(
-        db.grupa.findAll().then(function(resSet){
+        db.dan.findAll().then(function(resSet){
             return new Promise(function(resolve,reject){resolve(resSet);});
         })
     );
     Promise.all(promise).then(function (resSet) {
-        grupe = [];
-        resSet.forEach(s => {
-            s.forEach(a => {
-                grupe.push(a);
-            })
-        })
-        let nizJSON = [];
-        grupe.forEach(grupa => {
-            var jsonString = "{\"id\":\"" + grupa.id + "\",\"naziv\":\"" + grupa.naziv + "\"}"; 
-            nizJSON.push(JSON.parse(jsonString));
-        })
-        res.json(nizJSON);
-    })
+        res.json(resSet);
+    }).catch(function(err){console.log("Greska "+err);});
 });
 app . get ( '/v2/studenti', function ( req , res ){
     var promise = [];
@@ -261,20 +237,34 @@ app . get ( '/v2/studenti', function ( req , res ){
         })
     );
     Promise.all(promise).then(function (resSet) {
-        let nizJSON = [];
-        studenti = [];
-        resSet.forEach(s => {
-            s.forEach(a => {
-                studenti.push(a);
-            })
-        })
-        studenti.forEach(student => {
-            var jsonString = "{\"ime\":\"" + student.ime + "\",\"indeks\":\"" + student.index + "\"}"; 
-            nizJSON.push(JSON.parse(jsonString));
-        })
-        res.json(nizJSON);
-    })
+        res.json(resSet);
+    }).catch(function(err){console.log("Greska "+err);});
 });
+app . get ( '/v2/aktivnosti', function ( req , res ){
+    var promise = [];
+    promise.push(
+        db.aktivnost.findAll().then(function(resSet){
+            return new Promise(function(resolve,reject){resolve(resSet);});
+        })
+    );
+    Promise.all(promise).then(function (resSet) {
+        res.json(resSet);
+    }).catch(function(err){console.log("Greska "+err);});
+});
+app . get ( '/v2/grupe', function ( req , res ){
+    var promise = [];
+    promise.push(
+        db.grupa.findAll().then(function(resSet){
+            return new Promise(function(resolve,reject){resolve(resSet);});
+        })
+    );
+    Promise.all(promise).then(function (resSet) {
+        res.json(resSet);
+    }).catch(function(err){console.log("Greska "+err);});
+});
+
+
+
 
 //rute za read - jedan objekat
 app . get ( '/v2/predmet/:id', function ( req , res ){
@@ -286,9 +276,63 @@ app . get ( '/v2/predmet/:id', function ( req , res ){
     );
     Promise.all(promise).then(function (predmet) {
         res.json(predmet);
-    })
+    }).catch(function(err){console.log("Greska "+err);});
 });
-
+app . get ( '/v2/tip/:id', function ( req , res ){
+    var promise = [];
+    promise.push(
+        db.tip.findOne( {where: {id:req.params.id} }).then(function(tip){
+            return new Promise(function(resolve,reject){resolve(tip);});
+        })
+    );
+    Promise.all(promise).then(function (tip) {
+        res.json(tip);
+    }).catch(function(err){console.log("Greska "+err);});
+});
+app . get ( '/v2/dan/:id', function ( req , res ){
+    var promise = [];
+    promise.push(
+        db.dan.findOne( {where: {id:req.params.id} }).then(function(dan){
+            return new Promise(function(resolve,reject){resolve(dan);});
+        })
+    );
+    Promise.all(promise).then(function (dan) {
+        res.json(dan);
+    }).catch(function(err){console.log("Greska "+err);});
+});
+app . get ( '/v2/student/:id', function ( req , res ){
+    var promise = [];
+    promise.push(
+        db.student.findOne( {where: {id:req.params.id} }).then(function(student){
+            return new Promise(function(resolve,reject){resolve(student);});
+        })
+    );
+    Promise.all(promise).then(function (student) {
+        res.json(student);
+    }).catch(function(err){console.log("Greska "+err);});
+});
+app . get ( '/v2/grupa/:id', function ( req , res ){
+    var promise = [];
+    promise.push(
+        db.grupa.findOne( {where: {id:req.params.id} }).then(function(grupa){
+            return new Promise(function(resolve,reject){resolve(grupa);});
+        })
+    );
+    Promise.all(promise).then(function (grupa) {
+        res.json(grupa);
+    }).catch(function(err){console.log("Greska "+err);});
+});
+app . get ( '/v2/aktivnost/:id', function ( req , res ){
+    var promise = [];
+    promise.push(
+        db.aktivnost.findOne( {where: {id:req.params.id} }).then(function(aktivnost){
+            return new Promise(function(resolve,reject){resolve(aktivnost);});
+        })
+    );
+    Promise.all(promise).then(function (aktivnost) {
+        res.json(aktivnost);
+    }).catch(function(err){console.log("Greska "+err);});
+});
 
 
 
@@ -296,10 +340,41 @@ app . get ( '/v2/predmet/:id', function ( req , res ){
 app.post('/v2/predmet', function(req,res) {
     var tijeloZahtjeva = req.body;
     
-    db.predmet.create({naziv:tijeloZahtjeva.naziv}).then(function(p){
-        return new Promise(function(resolve,reject){resolve(p);});
-    })
-    res . end ("{\"message\": \"Uspješno dodan predmet!\"}");
+    var fja = [];
+    fja.push(
+        db.predmet.create({naziv:tijeloZahtjeva.naziv}).then(function(p){
+            return new Promise(function(resolve,reject){resolve(p);});
+        })
+    )
+    Promise.all(fja).then(function(s) {
+        res . end ("{\"message\": \"Uspješno dodan predmet!\"}");
+    }).catch(function(err){console.log("Greska "+err);});
+});
+app.post('/v2/tip', function(req,res) {
+    var tijeloZahtjeva = req.body;
+    
+    var fja = [];
+    fja.push(
+        db.tip.create({naziv:tijeloZahtjeva.naziv}).then(function(p){
+            return new Promise(function(resolve,reject){resolve(p);});
+        })
+    )
+    Promise.all(fja).then(function(s) {
+        res . end ("{\"message\": \"Uspješno dodan tip!\"}");
+    }).catch(function(err){console.log("Greska "+err);});
+});
+app.post('/v2/dan', function(req,res) {
+    var tijeloZahtjeva = req.body;
+    
+    var fja = [];
+    fja.push(
+        db.dan.create({naziv:tijeloZahtjeva.naziv}).then(function(p){
+            return new Promise(function(resolve,reject){resolve(p);});
+        })
+    )
+    Promise.all(fja).then(function(s) {
+        res . end ("{\"message\": \"Uspješno dodan dan!\"}");
+    }).catch(function(err){console.log("Greska "+err);});
 });
 app.post('/v2/student', function(req,res) {
     var tijeloZahtjeva = req.body;
@@ -307,13 +382,28 @@ app.post('/v2/student', function(req,res) {
     var fja = [];
     fja.push(
         db.student.create({ime:tijeloZahtjeva.ime,index:tijeloZahtjeva.index}).then(function(s){
-            // s.setGrupe([andric]);
             return new Promise(function(resolve,reject){resolve(s);});
         })
     )
     Promise.all(fja).then(function(s) {
         res . end ("{\"message\": \"Uspješno dodan student!\"}");  
-    })
+    }).catch(function(err){console.log("Greska "+err);});
+});
+app.post('/v2/grupa', function(req,res) {
+    var tijeloZahtjeva = req.body;
+    
+    if(tijeloZahtjeva.predmet) {
+        var fja =[];
+        fja.push(
+            db.grupa.create({naziv:tijeloZahtjeva.naziv,predmetId:tijeloZahtjeva.predmet}).then(function(d){
+                return new Promise(function(resolve,reject){resolve();});
+            })
+        );
+        Promise.all(fja).then(function () {
+            res . end ("{\"message\": \"Uspješno dodana grupa!\"}");
+        }).catch(function(err){console.log("Greska "+err);});
+    }
+    else res . end ("{\"message\": \"Greška - grupa mora pripadati predmetu!\"}");
 });
 app.post('/v2/aktivnost', function(req,res) {
     var tijeloZahtjeva = req.body;
@@ -327,20 +417,7 @@ app.post('/v2/aktivnost', function(req,res) {
     )
     Promise.all(fja).then(function(s) {
         res . end ("{\"message\": \"Uspješno dodana aktivnost!\"}");  
-    })
-});
-app.post('/v2/tip', function(req,res) {
-    var tijeloZahtjeva = req.body;
-    
-    var fja = [];
-    fja.push(
-        db.tip.create({naziv:tijeloZahtjeva.naziv}).then(function(){
-            return new Promise(function(resolve,reject){resolve();});
-        })
-    )
-    Promise.all(fja).then(function() {
-        res . end ("{\"message\": \"Uspješno dodan tip!\"}");  
-    })
+    }).catch(function(err){console.log("Greska "+err);});
 });
 app.post('/v2/studenti', function(req,res) {
     var tijeloZahtjeva = req.body;
@@ -423,32 +500,6 @@ app.post('/v2/studenti', function(req,res) {
         })
     })
 });
-app.post('/v2/dan', function(req,res) {
-    var tijeloZahtjeva = req.body;
-    
-    var fja =[];
-    fja.push(
-        db.dan.create({naziv:tijeloZahtjeva.naziv}).then(function(d){
-            return new Promise(function(resolve,reject){resolve();});
-        })
-    );
-    Promise.all(fja).then(function () {
-        res . end ("{\"message\": \"Uspješno dodan dan!\"}");
-    })
-});
-app.post('/v2/grupa', function(req,res) {
-    var tijeloZahtjeva = req.body;
-    
-    var fja =[];
-    fja.push(
-        db.grupa.create({naziv:tijeloZahtjeva.naziv,predmetId:tijeloZahtjeva.predmet}).then(function(d){
-            return new Promise(function(resolve,reject){resolve();});
-        })
-    );
-    Promise.all(fja).then(function () {
-        res . end ("{\"message\": \"Uspješno dodana grupa!\"}");
-    })
-});
 
 
 
@@ -456,16 +507,93 @@ app.post('/v2/grupa', function(req,res) {
 app.put('/v2/dan/:id', function(req,res) {
     var tijeloZahtjeva = req.body;
     var id = req.params.id;
-    
-    if(tijeloZahtjeva.naziv) {
+    var promisi = [];
+
+    promisi.push(
         db.dan.update( { naziv:tijeloZahtjeva.naziv},
         { where: {id:id} }).then(function(d){
             return new Promise(function(resolve,reject){resolve(d);});
         })
-    }
-    res . end ("{\"message\": \"Uspješno izmijenjen dan!\"}");
+    )
+    Promise.all(promisi).then(function () {
+        res . end ("{\"message\": \"Uspješno izmijenjen dan!\"}");
+    })
 });
+app.put('/v2/predmet/:id', function(req,res) {
+    var tijeloZahtjeva = req.body;
+    var id = req.params.id;
+    var promisi = [];
 
+    promisi.push(
+        db.predmet.update( { naziv:tijeloZahtjeva.naziv},
+        { where: {id:id} }).then(function(d){
+            return new Promise(function(resolve,reject){resolve(d);});
+        })
+    )
+    Promise.all(promisi).then(function () {
+        res . end ("{\"message\": \"Uspješno izmijenjen predmet!\"}");
+    })
+});
+app.put('/v2/tip/:id', function(req,res) {
+    var tijeloZahtjeva = req.body;
+    var id = req.params.id;
+    var promisi = [];
+
+    promisi.push(
+        db.tip.update( { naziv:tijeloZahtjeva.naziv},
+        { where: {id:id} }).then(function(d){
+            return new Promise(function(resolve,reject){resolve(d);});
+        })
+    )
+    Promise.all(promisi).then(function () {
+        res . end ("{\"message\": \"Uspješno izmijenjen tip!\"}");
+    })
+});
+app.put('/v2/student/:id', function(req,res) {
+    var tijeloZahtjeva = req.body;
+    var id = req.params.id;
+    var promisi = [];
+
+    promisi.push(
+        db.student.update( { ime:tijeloZahtjeva.ime, index:tijeloZahtjeva.index},
+        { where: {id:id} }).then(function(d){
+            return new Promise(function(resolve,reject){resolve();});
+        })
+    )
+    Promise.all(promisi).then(function () {
+        res . end ("{\"message\": \"Uspješno izmijenjen student!\"}");
+    })
+});
+app.put('/v2/grupa/:id', function(req,res) {
+    var tijeloZahtjeva = req.body;
+    var id = req.params.id;
+    var promisi = [];
+
+    promisi.push(
+        db.grupa.update( { ime:tijeloZahtjeva.ime},
+        { where: {id:id} }).then(function(d){
+            return new Promise(function(resolve,reject){resolve();});
+        })
+    )
+    Promise.all(promisi).then(function () {
+        res . end ("{\"message\": \"Uspješno izmijenjen predmet!\"}");
+    }).catch(function(err){console.log("Greska "+err);});
+});
+app.put('/v2/aktivnost/:id', function(req,res) {
+    var tijeloZahtjeva = req.body;
+    var id = req.params.id;
+    var promisi = [];
+
+    promisi.push(
+        db.aktivnost.update( { naziv:tijeloZahtjeva.naziv, pocetak:tijeloZahtjeva.pocetak,kraj:tijeloZahtjeva.kraj},
+        { where: {id:id} }).then(function(d){
+            return new Promise(function(resolve,reject){resolve();});
+        })
+    )
+    Promise.all(promisi).then(function () {
+        res . end ("{\"message\": \"Uspješno izmijenjena aktivnost!\"}");
+    }).catch(function(err){console.log("Greska "+err);});
+});
 
 
 //rute za delete
@@ -478,7 +606,7 @@ app.delete('/v2/dan/:id', function(req,res) {
     )
     Promise.all(fja).then(function () {
         res . end ("{\"message\": \"Uspješno obrisan dan!\"}");
-    })
+    }).catch(function(err){console.log("Greska "+err);});
 });
 app.delete('/v2/predmet/:naziv', function(req,res) {
     var fja =[];
@@ -489,6 +617,50 @@ app.delete('/v2/predmet/:naziv', function(req,res) {
     )
     Promise.all(fja).then(function () {
         res . end ("{\"message\": \"Uspješno obrisan predmet!\"}");
-    })
+    }).catch(function(err){console.log("Greska "+err);});
+});
+app.delete('/v2/tip/:id', function(req,res) {
+    var fja =[];
+    fja.push(
+        db.tip.destroy({where:{id:req.params.id}}).then(function(){
+            return new Promise(function(resolve,reject){resolve();});
+        })
+    )
+    Promise.all(fja).then(function () {
+        res . end ("{\"message\": \"Uspješno obrisan tip!\"}");
+    }).catch(function(err){console.log("Greska "+err);});
+});
+app.delete('/v2/student/:id', function(req,res) {
+    var fja =[];
+    fja.push(
+        db.student.destroy({where:{id:req.params.id}}).then(function(){
+            return new Promise(function(resolve,reject){resolve();});
+        })
+    )
+    Promise.all(fja).then(function () {
+        res . end ("{\"message\": \"Uspješno obrisan student!\"}");
+    }).catch(function(err){console.log("Greska "+err);});
+});
+app.delete('/v2/grupa/:id', function(req,res) {
+    var fja =[];
+    fja.push(
+        db.grupa.destroy({where:{id:req.params.id}}).then(function(){
+            return new Promise(function(resolve,reject){resolve();});
+        })
+    )
+    Promise.all(fja).then(function () {
+        res . end ("{\"message\": \"Uspješno obrisana grupa!\"}");
+    }).catch(function(err){console.log("Greska "+err);});
+});
+app.delete('/v2/aktivnost/:id', function(req,res) {
+    var fja =[];
+    fja.push(
+        db.aktivnost.destroy({where:{id:req.params.id}}).then(function(){
+            return new Promise(function(resolve,reject){resolve();});
+        })
+    )
+    Promise.all(fja).then(function () {
+        res . end ("{\"message\": \"Uspješno obrisana aktivnost!\"}");
+    }).catch(function(err){console.log("Greska "+err);});
 });
 module.exports = app . listen ( 3000 );
