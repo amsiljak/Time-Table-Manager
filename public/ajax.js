@@ -7,7 +7,7 @@ window.onload = function() {
 }
 function ucitajPredmete() {
     var ajax = new XMLHttpRequest();
-    ajax.open("GET", "/predmeti", true);
+    ajax.open("GET", "/v2/predmeti", true);
     ajax . send () ;
     ajax.onreadystatechange = function() {
         if (ajax.readyState == 4 && ajax.status == 200) {
@@ -17,7 +17,7 @@ function ucitajPredmete() {
 }
 function ucitajAktivnosti() {
     var ajax = new XMLHttpRequest();
-    ajax.open("GET", "/aktivnosti", true);
+    ajax.open("GET", "/v2/aktivnosti", true);
     ajax . send () ;
     ajax.onreadystatechange = function() {
         if (ajax.readyState == 4 && ajax.status == 200) {
@@ -27,7 +27,7 @@ function ucitajAktivnosti() {
 }
 function dodajPredmet(naziv) {
     var ajax = new XMLHttpRequest();
-    ajax.open("POST", "/predmet", true);
+    ajax.open("POST", "/v2/predmet", true);
     ajax.setRequestHeader ( "Content-Type" , "application/json" ) ;
     ajax.send("{\"naziv\":\"" + naziv + "\"}");
     ajax.onreadystatechange = function() {
@@ -38,7 +38,7 @@ function dodajPredmet(naziv) {
 }
 function obrisiPredmet(naziv) {
     var ajax = new XMLHttpRequest();
-    ajax.open("DELETE", "/predmet/" + naziv, true);
+    ajax.open("DELETE", "/v2/predmet/" + naziv, true);
     ajax . send () ;
 }
 function dodajAktivnost() {
@@ -52,30 +52,34 @@ function dodajAktivnost() {
             predmetPostoji = true;
         }
     }
+    var fje = [];
     if(!predmetPostoji) {
-        dodajPredmet(document . getElementById ( 'naziv' ).value);
+        fje.push (
+            dodajPredmet(document . getElementById ( 'naziv' ).value)
+        );
     }
-
-    //dodavanje nove aktivnosti
-    ajax.open("POST", "/aktivnost", true);
-    ajax.setRequestHeader ( "Content-Type" , "application/json" ) ;
-    var jsonString = "{\"naziv\":\"" + document . getElementById ( 'naziv' ). value + 
-        "\",\"tip\":\"" + document . getElementById ( 'tip' ). value.toString() + 
-        "\",\"pocetak\":" + document . getElementById ( 'pocetak' ). value.toString() + 
-        ",\"kraj\":" + document . getElementById ( 'kraj' ). value.toString() + 
-        ",\"dan\":\"" + document . getElementById ( 'dan' ). value.toString() +"\"}"; 
-    ajax.send (jsonString);
-    ajax.onreadystatechange = function() {
-        if(!greskaPredmet) {
-            if (ajax.readyState == 4 && ajax.status == 200) {
-                if(JSON.parse(ajax.response).message == "Aktivnost nije validna!") {
+    Promise.all(fje).then(function () {
+        //dodavanje nove aktivnosti
+        ajax.open("POST", "/v2/aktivnost", true);
+        ajax.setRequestHeader ( "Content-Type" , "application/json" ) ;
+        var jsonString = "{\"naziv\":\"" + document . getElementById ( 'naziv' ). value + 
+            "\",\"tip\":\"" + document . getElementById ( 'tip' ). value.toString() + 
+            "\",\"pocetak\":" + document . getElementById ( 'pocetak' ). value.toString() + 
+            ",\"kraj\":" + document . getElementById ( 'kraj' ). value.toString() + 
+            ",\"dan\":\"" + document . getElementById ( 'dan' ). value.toString() +"\"}"; 
+        ajax.send (jsonString);
+        ajax.onreadystatechange = function() {
+            if(!greskaPredmet) {
+                if (ajax.readyState == 4 && ajax.status == 200) {
+                    if(JSON.parse(ajax.response).message == "Aktivnost nije validna!") {
+                        obrisiPredmet(document . getElementById ( 'naziv' ).value);
+                    }
+                    else alert("Aktivnost dodana uspješno!");
+                }
+                else if (ajax.readyState == 4) {
                     obrisiPredmet(document . getElementById ( 'naziv' ).value);
                 }
-                else alert("Aktivnost dodana uspješno!");
-            }
-            else if (ajax.readyState == 4) {
-                obrisiPredmet(document . getElementById ( 'naziv' ).value);
             }
         }
-    }
+    });
 }

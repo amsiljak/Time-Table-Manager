@@ -23,8 +23,9 @@ function kreirajStudenta() {
     csv = document.getElementById("studenti");
     var redovi = csv.value.split("\n");
     for(i = 0; i < redovi.length; i++) {
+        grupaSelect = document.getElementById("grupaSelect");
         var kolona = redovi[i].split(",");
-        var jsonString = "{\"ime\":\"" + kolona[0] + "\",\"index\":\"" + kolona[1] + "\"}"; 
+        var jsonString = "{\"ime\":\"" + kolona[0] + "\",\"index\":\"" + kolona[1] + "\",\"grupa\":\"" + grupaSelect.value + "\"}"; 
         nizJSON.push(jsonString);
     }
 

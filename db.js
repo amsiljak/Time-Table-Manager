@@ -15,10 +15,11 @@ db.tip = sequelize.import(__dirname+'/models/tip.js');
 
 //relacije
 // Veza 1-n vise knjiga se moze nalaziti u biblioteci
-db.grupa.hasMany(db.predmet,{as:'predmetiGrupe'});
-db.predmet.hasMany(db.aktivnost,{as:'aktivnostiPredmeta'});
-db.dan.hasMany(db.aktivnost,{as:'aktivnostiDana'});
-db.tip.hasMany(db.aktivnost,{as:'aktivnostiTipa'});
+db.predmet.hasMany(db.grupa,{as:'grupePredmeta'},{foreignKey:{allowNull:false}});
+db.predmet.hasMany(db.aktivnost,{as:'aktivnostiPredmeta'},{foreignKey:{allowNull:false}});
+db.dan.hasMany(db.aktivnost,{as:'aktivnostiDana'},{foreignKey:{allowNull:false}});
+db.tip.hasMany(db.aktivnost,{as:'aktivnostiTipa'},{foreignKey:{allowNull:false}});
+db.grupa.hasMany(db.aktivnost,{as:'aktivnostiGrupe'});
 
 // Veza n-m autor moze imati vise knjiga, a knjiga vise autora
 db.studentGrupa=db.grupa.belongsToMany(db.student,{as:'studenti',through:'student_grupa',foreignKey:'grupaId'});
