@@ -339,41 +339,79 @@ app . get ( '/v2/aktivnost/:id', function ( req , res ){
 //rute za create
 app.post('/v2/predmet', function(req,res) {
     var tijeloZahtjeva = req.body;
-    
-    var fja = [];
-    fja.push(
-        db.predmet.create({naziv:tijeloZahtjeva.naziv}).then(function(p){
-            return new Promise(function(resolve,reject){resolve(p);});
+    var trebaDodati = true;
+    var provjera = [];
+    provjera.push(
+        db.predmet.findAll({where: {naziv:tijeloZahtjeva.naziv} }).then(function (resSet) {
+            if(resSet.length != 0) trebaDodati = false;
+            return new Promise(function(resolve,reject){resolve();});
         })
     )
-    Promise.all(fja).then(function(s) {
-        res . end ("{\"message\": \"Uspješno dodan predmet!\"}");
+    Promise.all(provjera).then(function() {
+        if(trebaDodati) {
+            var fja = [];
+            fja.push(
+                db.predmet.create({naziv:tijeloZahtjeva.naziv}).then(function(p){
+                    return new Promise(function(resolve,reject){resolve(p);});
+                })
+            )
+            Promise.all(fja).then(function(s) {
+                res . end ("{\"message\": \"Uspješno dodan predmet!\"}");
+            }).catch(function(err){console.log("Greska "+err);});
+        }
+        else res . end ("{\"message\": \"Predmet već postoji!\"}");
     }).catch(function(err){console.log("Greska "+err);});
 });
 app.post('/v2/tip', function(req,res) {
     var tijeloZahtjeva = req.body;
     
-    var fja = [];
-    fja.push(
-        db.tip.create({naziv:tijeloZahtjeva.naziv}).then(function(p){
-            return new Promise(function(resolve,reject){resolve(p);});
+    var trebaDodati = true;
+    var provjera = [];
+    provjera.push(
+        db.tip.findAll({where: {naziv:tijeloZahtjeva.naziv} }).then(function (resSet) {
+            if(resSet.length != 0) trebaDodati = false;
+            return new Promise(function(resolve,reject){resolve();});
         })
     )
-    Promise.all(fja).then(function(s) {
-        res . end ("{\"message\": \"Uspješno dodan tip!\"}");
+    Promise.all(provjera).then(function() {
+        if(trebaDodati) {
+        var fja = [];
+            fja.push(
+                db.tip.create({naziv:tijeloZahtjeva.naziv}).then(function(p){
+                    return new Promise(function(resolve,reject){resolve(p);});
+                })
+            )
+            Promise.all(fja).then(function(s) {
+                res . end ("{\"message\": \"Uspješno dodan tip!\"}");
+            }).catch(function(err){console.log("Greska "+err);});
+        }
+        else res . end ("{\"message\": \"Tip već postoji!\"}");
     }).catch(function(err){console.log("Greska "+err);});
 });
 app.post('/v2/dan', function(req,res) {
     var tijeloZahtjeva = req.body;
     
-    var fja = [];
-    fja.push(
-        db.dan.create({naziv:tijeloZahtjeva.naziv}).then(function(p){
-            return new Promise(function(resolve,reject){resolve(p);});
+    var trebaDodati = true;
+    var provjera = [];
+    provjera.push(
+        db.dan.findAll({where: {naziv:tijeloZahtjeva.naziv} }).then(function (resSet) {
+            if(resSet.length != 0) trebaDodati = false;
+            return new Promise(function(resolve,reject){resolve();});
         })
     )
-    Promise.all(fja).then(function(s) {
-        res . end ("{\"message\": \"Uspješno dodan dan!\"}");
+    Promise.all(provjera).then(function() {
+        if(trebaDodati) {
+            var fja = [];
+            fja.push(
+                db.dan.create({naziv:tijeloZahtjeva.naziv}).then(function(p){
+                    return new Promise(function(resolve,reject){resolve(p);});
+                })
+            )
+            Promise.all(fja).then(function(s) {
+                res . end ("{\"message\": \"Uspješno dodan dan!\"}");
+            }).catch(function(err){console.log("Greska "+err);});
+        }
+        else res . end ("{\"message\": \"Dan već postoji!\"}");
     }).catch(function(err){console.log("Greska "+err);});
 });
 app.post('/v2/student', function(req,res) {
