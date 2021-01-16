@@ -7,7 +7,13 @@ function ucitajGrupe() {
     ajax . send () ;
     ajax.onreadystatechange = function() {
         if (ajax.readyState == 4 && ajax.status == 200) {
-            var jsonGrupe = JSON.parse(ajax.responseText);
+            var response = JSON.parse(ajax.responseText);
+            var jsonGrupe = [];
+            response.forEach(s => {
+                s.forEach(a => {
+                    jsonGrupe.push(a);
+                })
+            })
             grupaSelect = document.getElementById("grupaSelect");
             jsonGrupe.forEach(grupa => {
                 var opt = document.createElement('option');

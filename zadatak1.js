@@ -412,7 +412,6 @@ app.post('/v2/aktivnost', function(req,res) {
 
     //uslov za ako je poslan naziv predmeta a ne id
     if(tijeloZahtjeva.predmetNaziv != 'undefined' && tijeloZahtjeva.predmetNaziv) {
-        console.log(tijeloZahtjeva.predmetNaziv);
         promise.push(
             db.predmet.findOne( {where: {naziv:tijeloZahtjeva.predmetNaziv} }).then(function(p){
                 predmetId = p.id;
@@ -443,6 +442,7 @@ app.post('/v2/studenti', function(req,res) {
     tijeloZahtjeva.forEach(student => {
         jsonStudenti.push(JSON.parse(student));
     })
+    console.log(jsonStudenti);
     var fja = [];
     fja.push(
         db.student.findAll().then(function(resSet){
