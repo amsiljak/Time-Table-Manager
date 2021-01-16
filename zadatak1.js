@@ -511,6 +511,7 @@ app.post('/v2/studenti', function(req,res) {
             }
         })
         Promise.all(studentiListaPromisea).then(function () {
+            if(nizOdgovora.length == 1) nizOdgovora = nizOdgovora[0];
             res.send(nizOdgovora);
         })
     })
