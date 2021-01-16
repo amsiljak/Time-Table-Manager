@@ -92,8 +92,8 @@ function obrisiPredmet(predmet) {
 }
 function dodajAktivnost() {
     var ajax = new XMLHttpRequest();
-    var predmetId;
-    var predmetNaziv;
+    var predmetId = null;
+    var predmetNaziv = null;
 
     //provjera postojanja predmeta
     var predmetPostoji = false;
@@ -112,17 +112,26 @@ function dodajAktivnost() {
         predmetNaziv = document . getElementById ( 'naziv' ).value;
     }
     Promise.all(fje).then(function () {
-        
+
         //dodavanje nove aktivnosti
         ajax.open("POST", "/v2/aktivnost", true);
         ajax.setRequestHeader ( "Content-Type" , "application/json" ) ;
-        var jsonString = "{\"naziv\":\"" + document . getElementById ( 'nazivAktivnosti' ).value + 
-            "\",\"predmetId\":" + predmetId + 
-            ",\"predmetNaziv\":\"" + predmetNaziv + 
-            "\",\"tip\":" + document . getElementById ( 'tip' ). value + 
-            ",\"pocetak\":" + document . getElementById ( 'pocetak' ). value.toString() + 
-            ",\"kraj\":" + document . getElementById ( 'kraj' ). value.toString() + 
-            ",\"dan\":" + document . getElementById ( 'dan' ).value +"}"; 
+        if(predmetId != null) {
+            var jsonString = "{\"naziv\":\"" + document . getElementById ( 'nazivAktivnosti' ).value + 
+                "\",\"predmetId\":" + predmetId + 
+                ",\"tip\":" + document . getElementById ( 'tip' ). value + 
+                ",\"pocetak\":" + document . getElementById ( 'pocetak' ). value.toString() + 
+                ",\"kraj\":" + document . getElementById ( 'kraj' ). value.toString() + 
+                ",\"dan\":" + document . getElementById ( 'dan' ).value +"}"; 
+        }
+        else {
+            var jsonString = "{\"naziv\":\"" + document . getElementById ( 'nazivAktivnosti' ).value + 
+                "\",\"predmetNaziv\":\"" + predmetNaziv + 
+                "\",\"tip\":" + document . getElementById ( 'tip' ). value + 
+                ",\"pocetak\":" + document . getElementById ( 'pocetak' ). value.toString() + 
+                ",\"kraj\":" + document . getElementById ( 'kraj' ). value.toString() + 
+                ",\"dan\":" + document . getElementById ( 'dan' ).value +"}"; 
+        }
         ajax.send (jsonString);
         ajax.onreadystatechange = function() {
             if(!greskaPredmet) {
