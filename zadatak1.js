@@ -407,16 +407,31 @@ app.post('/v2/grupa', function(req,res) {
 });
 app.post('/v2/aktivnost', function(req,res) {
     var tijeloZahtjeva = req.body;
-    
-    var fja = [];
-    fja.push(
-        db.aktivnost.create({naziv:tijeloZahtjeva.naziv,pocetak:tijeloZahtjeva.pocetak,kraj:tijeloZahtjeva.kraj,
-            predmetId:tijeloZahtjeva.predmet,danId:tijeloZahtjeva.dan,tipId:tijeloZahtjeva.tip,grupaId:tijeloZahtjeva.grupa}).then(function(s){
-            return new Promise(function(resolve,reject){resolve(s);});
-        })
-    )
-    Promise.all(fja).then(function(s) {
-        res . end ("{\"message\": \"Uspješno dodana aktivnost!\"}");  
+    var promise = [];
+    var predmetId;
+
+    //uslov za ako je poslan naziv predmeta a ne id
+    if(tijeloZahtjeva.predmetNaziv != 'undefined' && tijeloZahtjeva.predmetNaziv) {
+        console.log(tijeloZahtjeva.predmetNaziv);
+        promise.push(
+            db.predmet.findOne( {where: {naziv:tijeloZahtjeva.predmetNaziv} }).then(function(p){
+                predmetId = p.id;
+                return new Promise(function(resolve,reject){resolve();});
+            })
+        )    
+    }
+    else predmetId = tijeloZahtjeva.predmetId;
+    Promise.all(promise).then(function() {
+        var fja = [];
+        fja.push(
+            db.aktivnost.create({naziv:tijeloZahtjeva.naziv,pocetak:tijeloZahtjeva.pocetak,kraj:tijeloZahtjeva.kraj,
+                predmetId:predmetId,danId:tijeloZahtjeva.dan,tipId:tijeloZahtjeva.tip,grupaId:tijeloZahtjeva.grupa}).then(function(s){
+                return new Promise(function(resolve,reject){resolve(s);});
+            })
+        )
+        Promise.all(fja).then(function(s) {
+            res . end ("{\"message\": \"Uspješno dodana aktivnost!\"}");  
+        }).catch(function(err){console.log("Greska "+err);});
     }).catch(function(err){console.log("Greska "+err);});
 });
 app.post('/v2/studenti', function(req,res) {
