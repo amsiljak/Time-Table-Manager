@@ -1,0 +1,30 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto);
+body {
+    font-family: "Roboto";
+    margin-top: 0%;
+    margin-left: 0%;
+    margin-right: 0%;
+}
+td {
+    display: block;
+    width: 100% !important;
+    border: 1px solid black;
+    display: none;  
+}
+td:nth-child(1) {
+    display: block;
+}
+#prvi {
+    display: none;
+}
+.plavo {
+    background-color:  #c3c3c3;
+    display: block;
+}
+table {
+    width: 100%;
+    text-align: center;
+    padding-right: 30%;
+    padding-left: 30%;
+    border-spacing:0 15px; 
+}

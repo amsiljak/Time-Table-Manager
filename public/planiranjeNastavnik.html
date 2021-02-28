@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Planiranje nastavnik</title>
+        <link rel="stylesheet" media="screen and (min-width: 601px)" href="planiranjeNastavnik.css">
+        <link rel="stylesheet" type="text/css" media="screen and (max-width: 600px)" href="planiranjeNastavnik_mobile.css" />
+        <link rel="stylesheet" href="../menu.css">
+    </head>
+    <body>
+        <div class="topnav">
+            <a href="../spirala2rasporedzad1/spirala2rasporedi.html">Raspored</a>
+            <a href="../aktivnost/aktivnost.html">Aktivnost</a>
+            <a class="active" href="..planiranjeNastavnik.html">Planiranje</a>
+            <a href="../podaciStudent/podaciStudent.html">Podaci studenta</a>
+        </div>
+
+        <div id = "center">
+            <table>
+                <tr>
+                    <td><label>Naziv predmeta:</label></td>
+                    <td><input type="text" name="coursename"><br><br></td>
+                </tr>
+
+                <tr>
+                    <td><label>Tip:</label></td>
+                    <td><select name="typeofcourse">
+                        <option value="" selected disabled hidden>Choose here</option>
+                        <option value="Predavanje">Predavanje</option>
+                        <option value="Vjezba">Vjezba</option>
+                    </select><br><br></td>
+                </tr>
+
+                <tr>
+                    <td><label>Vrijeme pocetka:</label></td>
+                    <td><input type="time" name="beginningtime"><br><br></td>
+                </tr>
+
+                <tr>
+                    <td><label>Vrijeme kraja:</label></td>
+                    <td><input type="time" name="endingtime"><br><br></td>
+                </tr>
+
+                <tr>
+                    <td><label>Dan u sedmici:</label></td>
+                    <td><select name="dayoftheweek">
+                        <option value="" selected disabled hidden>Choose here</option>
+                        <option value="Ponedjeljak">Ponedjeljak</option>
+                        <option value="Utorak">Utorak</option>
+                        <option value="Srijeda">Srijeda</option>
+                        <option value="Cetvrtak">Cetvrtak</option>
+                        <option value="Petak">Petak</option>
+                        <option value="Subota">Subota</option>
+                        <option value="Nedjelja">Nedjelja</option>
+                    </select><br><br></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

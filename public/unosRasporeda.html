@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<HTML>
+    <HEAD>
+        <TITLE>Unos rasporeda</TITLE>
+        <link rel="stylesheet" media="screen and (min-width: 601px)" href="unosRasporeda.css">
+    </HEAD>
+    <BODY>
+        <div id = "okvir">
+            <table id = "center">
+                <tr>
+                    <td><label>Naziv aktivnosti:</label></td>
+                    <td><input type="text" name="nazivAktivnosti" id ="nazivAktivnosti"><br><br></td>
+                </tr>
+
+                <tr>
+                    <td><label>Naziv predmeta:</label></td>
+                    <td><input type="text" name="naziv" id ="naziv"><br><br></td>
+                </tr>
+
+                <tr>
+                    <td><label>Tip:</label></td>
+                    <td><select name="tip" id = "tip">
+                        <option value="" selected disabled hidden>Choose here</option>
+                    </select><br><br></td>
+                </tr>
+
+                <tr>
+                    <td><label>Vrijeme pocetka:</label></td>
+                    <td><input type="number" name="pocetak" id = "pocetak"><br><br></td>
+                </tr>
+
+                <tr>
+                    <td><label>Vrijeme kraja:</label></td>
+                    <td><input type="number" name="kraj" id="kraj"><br><br></td>
+                </tr>
+
+                <tr>
+                    <td><label>Dan u sedmici:</label></td>
+                    <td><select name="dan" id ="dan">
+                        <option value="" selected disabled hidden>Choose here</option>
+                    </select><br><br></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type = "button" id = "dugme" value = "Dodaj aktivnost" onclick="dodajAktivnost()"></td>
+                </tr>
+            </table>
+        </div>
+        <script src="/ajax.js"></script>
+    </BODY>
+</HTML>
