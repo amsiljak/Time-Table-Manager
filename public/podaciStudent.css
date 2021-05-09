@@ -31,5 +31,5 @@ tr:nth-child(n+2):hover {
     display: inline-block;
 }
 tr:nth-child(1) {
-    background-color: #c3c3c3;
+    background-color: #F0F0F0;
 }
