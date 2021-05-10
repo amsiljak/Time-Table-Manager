@@ -16,15 +16,15 @@ The timetable and its activities can be created by calling JavaScript functions.
 
 <img src="timetable.PNG" alt="timetable" width="700"/> 
 
-The activities and subjects can be added using a form shown below. There are separate routes for CRUD operations that can store this data in CSV files or MySQL database. The routes were implemented using Express.js. 
+The activities and subjects can be added using a form shown below. There are separate routes for CRUD operations - the ones that use CSV files and and the ones that use MySQL database. They were implemented using Express.js. 
  
 <img src="activityform.PNG" alt="activityform" width="700"/>  
 
-There is also a form for adding any number of students at once and putting them into groups. 
+There is also a form for adding any number of students at once and putting them into groups. The input field shows the message for the students that cannot be added for any reason.
 
 AJAX was used for all server requests.
 
-Chai & Mocha were used for testing JavaScript functions and backend. Test cases for backend testing are storend in a CSV file. The input field shows the message for the students that cannot be added for any reason.
+Chai & Mocha were used for testing JavaScript functions and backend. Test cases for backend testing are being read from a CSV file.
 
 ### Technology stack:
 * JavaScript
